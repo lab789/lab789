@@ -1,107 +1,114 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-struct Node {
+struct node {
     int data;
-    Node *left, *right;
+    node *left, *right;
 };
 
-Node* newNode(int value) {
-    Node* temp = new Node();
-    temp->data = value;
-    temp->left = temp->right = NULL;
-    return temp;
+node* createNode(int val) {
+    node* newNode = new node;
+    newNode->data = val;
+    newNode->left = newNode->right = NULL;
+    return newNode;
 }
 
-Node* insert(Node* root, int value) {
-    if (root == NULL)
-        return newNode(value);
-    if (value < root->data)
-        root->left = insert(root->left, value);
-    else if (value > root->data)
-        root->right = insert(root->right, value);
+node* insert(node* root, int val) {
+    if (root == NULL) return createNode(val);
+    if (val < root->data) root->left = insert(root->left, val);
+    else if (val > root->data) root->right = insert(root->right, val);
     return root;
 }
 
-int height(Node* root) {
-    if (root == NULL)
-        return 0;
-    int leftH = height(root->left);
-    int rightH = height(root->right);
-    return max(leftH, rightH) + 1;
+int longestPath(node* root) {
+    if (root == NULL) return 0;
+    int left = longestPath(root->left);
+    int right = longestPath(root->right);
+    return (left > right ? left : right) + 1;
 }
 
-int findMin(Node* root) {
-    if (root == NULL) {
-        cout << "Tree is empty!" << endl;
-        return -1;
-    }
+int findMin(node* root) {
     while (root->left != NULL)
         root = root->left;
     return root->data;
 }
 
-void mirror(Node* root) {
-    if (root == NULL)
-        return;
+void mirror(node* root) {
+    if (root == NULL) return;
     mirror(root->left);
     mirror(root->right);
     swap(root->left, root->right);
 }
 
-bool search(Node* root, int key) {
-    if (root == NULL)
-        return false;
-    if (root->data == key)
-        return true;
-    if (key < root->data)
-        return search(root->left, key);
-    else
-        return search(root->right, key);
+bool search(node* root, int key) {
+    if (root == NULL) return false;
+    if (root->data == key) return true;
+    else if (key < root->data) return search(root->left, key);
+    else return search(root->right, key);
 }
 
-void inorder(Node* root) {
-    if (root == NULL)
-        return;
-    inorder(root->left);
-    cout << root->data << " ";
-    inorder(root->right);
+void inorder(node* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
 }
 
 int main() {
-    Node* root = NULL;
-    int n, val;
-    cout << "Enter number of nodes to insert: ";
-    cin >> n;
-    cout << "Enter values: ";
-    for (int i = 0; i < n; i++) {
-        cin >> val;
-        root = insert(root, val);
-    }
+    node* root = NULL;
+    int ch, val;
 
-    cout << "\nInorder Traversal: ";
-    inorder(root);
+    do {
+        cout << "\n--- MENU ---";
+        cout << "\n1. Insert node";
+        cout << "\n2. Display (Inorder)";
+        cout << "\n3. Longest path from root";
+        cout << "\n4. Minimum value in tree";
+        cout << "\n5. Mirror tree";
+        cout << "\n6. Search value";
+        cout << "\n7. Exit\nEnter choice: ";
+        cin >> ch;
 
-    cout << "\n\nEnter new node to insert: ";
-    cin >> val;
-    root = insert(root, val);
-    cout << "After insertion (Inorder): ";
-    inorder(root);
-
-    cout << "\n\nHeight (longest path): " << height(root);
-    cout << "\nMinimum value in tree: " << findMin(root);
-
-    cout << "\n\nEnter value to search: ";
-    cin >> val;
-    if (search(root, val))
-        cout << val << " found in tree!";
-    else
-        cout << val << " not found in tree!";
-
-    mirror(root);
-    cout << "\n\nInorder after mirroring: ";
-    inorder(root);
-    cout << endl;
+        switch (ch) {
+        case 1:
+            cout << "Enter value: ";
+            cin >> val;
+            root = insert(root, val);
+            break;
+        case 2:
+            cout << "Inorder traversal: ";
+            inorder(root);
+            cout << endl;
+            break;
+        case 3:
+            cout << "Longest path length: " << longestPath(root) << endl;
+            break;
+        case 4:
+            if (root)
+                cout << "Minimum value: " << findMin(root) << endl;
+            else
+                cout << "Tree is empty\n";
+            break;
+        case 5:
+            mirror(root);
+            cout << "Tree mirrored successfully.\n";
+            break;
+        case 6:
+            cout << "Enter value to search: ";
+            cin >> val;
+            if (search(root, val))
+                cout << "Value found.\n";
+            else
+                cout << "Value not found.\n";
+            break;
+        case 7:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid choice!\n";
+        }
+    } while (ch != 7);
 
     return 0;
 }
