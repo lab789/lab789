@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+
+
+void linearSearch(int arr[], int n, int key) {
+    bool found = false;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            cout << " Student attended the training program.\n";
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+        cout << " Student did not attend the training program.\n";
+}
+
+
+void binarySearch(int arr[], int n, int key) {
+    int low = 0, high = n - 1;
+    bool found = false;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == key) {
+            cout << " Student attended the training program.\n";
+            found = true;
+            break;
+        } else if (key < arr[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    if (!found)
+        cout << " Student did not attend the training program.\n";
+}
+
+int main() {
+    int choice, n, key;
+
+    do {
+        cout << "\n STUDENT ATTENDANCE SEARCH SYSTEM \n";
+        cout << "1. Linear Search (Unsorted Data)\n";
+        cout << "2. Binary Search (Sorted Data)\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "\nEnter number of students: ";
+            cin >> n;
+
+            int roll[n];
+            cout << "Enter roll numbers (in random order):\n";
+            for (int i = 0; i < n; i++)
+                cin >> roll[i];
+
+            cout << "Enter roll number to search: ";
+            cin >> key;
+
+            linearSearch(roll, n, key);
+        }
+
+        else if (choice == 2) {
+            cout << "\nEnter number of students: ";
+            cin >> n;
+
+            int roll[n];
+            cout << "Enter roll numbers (in sorted order):\n";
+            for (int i = 0; i < n; i++)
+                cin >> roll[i];
+
+            cout << "Enter roll number to search: ";
+            cin >> key;
+
+            binarySearch(roll, n, key);
+        }
+
+        else if (choice == 3) {
+            cout << "\nExit program\n";
+        }
+
+        else {
+            cout << "\nInvalid choice\n";
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
+
+
