@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+ 
+int main()
+{
+    int ch , n , rear=-1 , front=-1 , key;
+    cout<<"Enter how many orders will be taken \n";
+    cin>>n;
+    int arr[n];
+    do
+    {
+        cout<<"1.Place order\n2.Remove order\n3.Display order \n4.Exit...\n";
+        cin>>ch;
+ 
+        switch(ch)
+        {
+            case 1:
+           
+                if(rear==n-1)
+                {
+                    cout<<"The orders are full \n";
+                }
+                else
+                {
+                    cout<<"Enter the no. of pizza you want to order \n";
+                    cin>>key;
+                    if(rear==-1 && front==-1)
+                    {
+                        front++;
+                        rear++;
+                    }
+                    else
+                    {
+                        rear++;
+                    }
+                    arr[rear]=key;
+                }
+            break;
+ 
+            case 2:
+                    if(front==-1 || front>rear)
+                    {
+                        cout<<"The Queue is empty \n";
+                   
+                    }
+                    else
+                    {
+                        front++;
+                        cout<<"The element is removed successfully \n";
+ 
+                    }
+                    break;
+           
+            case 3:
+                    if(front ==-1 || front>rear)
+                    {
+                        cout<<"The Queue is empty\n";
+                    }
+                    else
+                    {
+                        cout<<"The orders  are :\n";
+                        for(int i=front ; i<= rear; i++)
+                        {
+                            cout<<arr[i]<<"\n";
+                        }
+                    }
+                    break;
+            case 4:
+                    break;
+ 
+            default:
+            cout<<"You entered the wrong choice...";
+        }
+    }while(ch!=4);
+    return 0;
+}
+ 
+
