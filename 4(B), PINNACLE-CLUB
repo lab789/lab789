@@ -30,11 +30,11 @@ void president(node*&head)
     }
     cout<<"Enter the name of the president ";
     cin>>name;
-    cout<<"Enter the prn of the president";
+    cout<<"Enter the prn of the president ";
     cin>>prn;
     node*P = create(name,prn);
     head = P;
-    cout<<"principal added successfully"; 
+    cout<<"President added successfully\n"; 
     
     
 }
@@ -42,13 +42,13 @@ void secretary(node*&head)
 {
     if(head==NULL)
     {
-        cout<<"Add the principal first ";
+        cout<<"Add the principal first \n";
     }
     int prn;
     string name;
-    cout<<"Enter the name of the secretary ";
+    cout<<"Enter the name of the secretary \n";
     cin>>name;
-    cout<<"Enter th prn of the secreatary ";
+    cout<<"Enter th prn of the secreatary \n";
     cin>>prn;
     node*P = create(name,prn);
     node*temp =head;
@@ -62,14 +62,14 @@ void members(node*&head)
 {
     if(head==NULL)
     {
-        cout<<"Add the principal first ";
+        cout<<"Add the principal first \n";
         return ;
     }
     int prn;
     string name;
-    cout<<"Enter the name of the member ";
+    cout<<"Enter the name of the member \n";
     cin>>name;
-    cout<<"Enter the prn of the members ";
+    cout<<"Enter the prn of the members \n";
     cin>>prn;
     node*P = create(name, prn);
     node* temp = head;
@@ -91,9 +91,11 @@ void DPresident(node*&head)
 void display(node*&head)
 {
     node*temp= head;
+    cout<<"The list of the club is :\n";
     while(temp != NULL)
     {
-    cout<<temp->prn;
+    cout<<"Name :"<<temp->name<<"           ";
+    cout<<"PRN :"<<temp->prn<<"  \n";
     temp=temp->next;
     }
 }
@@ -134,7 +136,7 @@ void DMember(node*& head)
     }
 
     int prn;
-    cout << "Enter the PRN of the member to remove: ";
+    cout << "Enter the PRN of the member to remove: \n";
     cin >> prn;
 
     node* temp = head;
@@ -161,7 +163,7 @@ int main()
     int ch;
     node* head =NULL;
     do{
-    cout<<"1.add principal\n2.display\n3.add secretary\n4.members\n5.Delete president\n6. Delete secreatary\n7.Delete members\n8.Exit...";
+    cout<<"1.add President \n2.display\n3.add secretary\n4.members\n5.Delete president\n6. Delete secreatary\n7.Delete members\n8.Exit...\n";
     cin>>ch;
     switch(ch)
     {
