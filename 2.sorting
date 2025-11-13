@@ -1,0 +1,109 @@
+#include <iostream>
+using namespace std;
+
+void bubbleSort(float arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                
+                float temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+void selectionSort(float arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+        
+        float temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+
+
+void insertionSort(float arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        float key = arr[i];
+        int j = i - 1;
+
+        
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void displayTopFive(float arr[], int n) {
+    cout << "\nTop Five Scores:\n";
+    int count = (n < 5) ? n : 5;
+    for (int i = n - 1; i >= n - count; i--) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+
+int main() {
+    int n, choice;
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    float marks[n];
+    cout << "Enter percentage of students:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> marks[i];
+    }
+
+    do {
+        cout << "\n MENU ";
+        cout << "\n1. Bubble Sort";
+        cout << "\n2. Selection Sort";
+        cout << "\n3. Insertion Sort";
+        cout << "\n4. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            bubbleSort(marks, n);
+            cout << "\nArray sorted using Bubble Sort.\n";
+            displayTopFive(marks, n);
+            break;
+
+        case 2:
+            selectionSort(marks, n);
+            cout << "\nArray sorted using Selection Sort.\n";
+            displayTopFive(marks, n);
+            break;
+
+        case 3:
+            insertionSort(marks, n);
+            cout << "\nArray sorted using Insertion Sort.\n";
+            displayTopFive(marks, n);
+            break;
+
+        case 4:
+            cout << "\nExit program\n";
+            break;
+
+        default:
+            cout << "\nInvalid choice\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
+
+
