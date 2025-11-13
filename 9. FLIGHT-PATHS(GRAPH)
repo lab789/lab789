@@ -21,8 +21,8 @@ int main() {
     for (int i = 0; i < m; i++) {
         int a, b;
         cin >> a >> b;
-        adj[a][b] = 1;
-        adj[b][a] = 1;
+        adj[a-1][b-1] = 1;
+        adj[b-1][a-1] = 1;
     }
     
     cout << "\nAdjacency Matrix:\n";
