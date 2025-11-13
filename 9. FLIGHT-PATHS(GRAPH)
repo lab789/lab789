@@ -1,50 +1,37 @@
+
 #include <iostream>
 using namespace std;
 
-#define MAX 10
-
-void DFS(int graph[MAX][MAX], int visited[MAX], int n, int start) {
-    visited[start] = 1;
-    for (int i = 0; i < n; i++) {
-        if (graph[start][i] == 1 && visited[i] == 0)
-            DFS(graph, visited, n, i);
-    }
-}
-
 int main() {
-    int n;
-    cout << "Enter number of cities: ";
+    int adj[100][100];
+    int n, m;
+    
+    cout << "Nodes: ";
     cin >> n;
-
-    string city[MAX];
-    cout << "Enter city names:\n";
-    for (int i = 0; i < n; i++)
-        cin >> city[i];
-
-    int graph[MAX][MAX];
-    cout << "\nEnter adjacency matrix (1 if flight exists, else 0):\n";
+    cout << "Edges: ";
+    cin >> m;
+    
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            cin >> graph[i][j];
+            adj[i][j] = 0;
         }
     }
-
-    int visited[MAX] = {0};
-
-    DFS(graph, visited, n, 0);
-
-    bool connected = true;
+    
+    cout << "Enter edges:\n";
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        adj[a][b] = 1;
+        adj[b][a] = 1;
+    }
+    
+    cout << "\nAdjacency Matrix:\n";
     for (int i = 0; i < n; i++) {
-        if (visited[i] == 0) {
-            connected = false;
-            break;
+        for (int j = 0; j < n; j++) {
+            cout << adj[i][j] << " ";
         }
+        cout << endl;
     }
-
-    if (connected)
-        cout << "\nAll cities are connected!" << endl;
-    else
-        cout << "\nGraph is NOT connected!" << endl;
-
-    return 0;
+    
+   return 0;
 }
