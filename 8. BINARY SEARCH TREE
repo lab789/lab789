@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node *left, *right;
+};
+
+Node* newNode(int value) {
+    Node* temp = new Node();
+    temp->data = value;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == NULL)
+        return newNode(value);
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+    return root;
+}
+
+int height(Node* root) {
+    if (root == NULL)
+        return 0;
+    int leftH = height(root->left);
+    int rightH = height(root->right);
+    return max(leftH, rightH) + 1;
+}
+
+int findMin(Node* root) {
+    if (root == NULL) {
+        cout << "Tree is empty!" << endl;
+        return -1;
+    }
+    while (root->left != NULL)
+        root = root->left;
+    return root->data;
+}
+
+void mirror(Node* root) {
+    if (root == NULL)
+        return;
+    mirror(root->left);
+    mirror(root->right);
+    swap(root->left, root->right);
+}
+
+bool search(Node* root, int key) {
+    if (root == NULL)
+        return false;
+    if (root->data == key)
+        return true;
+    if (key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+void inorder(Node* root) {
+    if (root == NULL)
+        return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+int main() {
+    Node* root = NULL;
+    int n, val;
+    cout << "Enter number of nodes to insert: ";
+    cin >> n;
+    cout << "Enter values: ";
+    for (int i = 0; i < n; i++) {
+        cin >> val;
+        root = insert(root, val);
+    }
+
+    cout << "\nInorder Traversal: ";
+    inorder(root);
+
+    cout << "\n\nEnter new node to insert: ";
+    cin >> val;
+    root = insert(root, val);
+    cout << "After insertion (Inorder): ";
+    inorder(root);
+
+    cout << "\n\nHeight (longest path): " << height(root);
+    cout << "\nMinimum value in tree: " << findMin(root);
+
+    cout << "\n\nEnter value to search: ";
+    cin >> val;
+    if (search(root, val))
+        cout << val << " found in tree!";
+    else
+        cout << val << " not found in tree!";
+
+    mirror(root);
+    cout << "\n\nInorder after mirroring: ";
+    inorder(root);
+    cout << endl;
+
+    return 0;
+}
