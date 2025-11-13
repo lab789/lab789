@@ -1,0 +1,145 @@
+#include <iostream> 
+#include <string> 
+using namespace std; 
+struct Node { 
+    string name; 
+    Node* next; 
+}; 
+class Set { 
+    Node* head; 
+public: 
+    Set() { 
+        head = nullptr; 
+    } 
+    
+    void insert(string name) { 
+        if (isMember(name)) return; 
+        Node* newNode = new Node{name, nullptr}; 
+        if (head == nullptr) { 
+            head = newNode; 
+            return; 
+        } 
+        Node* temp = head; 
+        while (temp->next != nullptr) 
+            temp = temp->next; 
+        temp->next = newNode; 
+    } 
+    
+    bool isMember(string name) { 
+        Node* temp = head; 
+        while (temp != nullptr) { 
+            if (temp->name == name) 
+                return true; 
+            temp = temp->next; 
+        } 
+        return false; 
+    } 
+     
+    void display() { 
+        Node* temp = head; 
+        cout << "{ "; 
+        while (temp != nullptr) { 
+            cout << temp->name << " "; 
+            temp = temp->next; 
+        } 
+        cout << "}\n"; 
+    } 
+     
+    Set intersection(Set &B) { 
+        Set result; 
+        Node* temp = head; 
+        while (temp != nullptr) { 
+            if (B.isMember(temp->name)) 
+                result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        return result; 
+    } 
+    
+    Set setUnion(Set &B) { 
+        Set result; 
+        Node* temp = head; 
+        while (temp != nullptr) { 
+            result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        temp = B.head; 
+        while (temp != nullptr) { 
+            result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        return result; 
+    } 
+    
+    Set symmetricDiff(Set &B) { 
+        Set result; 
+        Node* temp = head; 
+        while (temp != nullptr) { 
+            if (!B.isMember(temp->name)) 
+                result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        temp = B.head; 
+        while (temp != nullptr) { 
+            if (!isMember(temp->name)) 
+                result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        return result; 
+    } 
+    
+    Set difference(Set &U) { 
+        Set result; 
+        Node* temp = U.head; 
+        while (temp != nullptr) { 
+            if (!isMember(temp->name)) 
+                result.insert(temp->name); 
+            temp = temp->next; 
+        } 
+        return result; 
+    } 
+}; 
+int main() { 
+    Set universal, vanilla, butterscotch; 
+    int n, m, total; 
+    string name; 
+    cout << "Enter total number of students in class: "; 
+    cin >> total; 
+    cout << "Enter names of all students:\n"; 
+    for (int i = 0; i < total; i++) { 
+        cin >> name; 
+        universal.insert(name); 
+    } 
+    cout << "\nEnter number of students who like Vanilla: "; 
+    cin >> n; 
+    cout << "Enter names:\n"; 
+    for (int i = 0; i < n; i++) { 
+        cin >> name; 
+        vanilla.insert(name); 
+    } 
+    cout << "\nEnter number of students who like Butterscotch: "; 
+    cin >> m; 
+    cout << "Enter names:\n"; 
+    for (int i = 0; i < m; i++) { 
+        cin >> name; 
+butterscotch.insert(name); 
+} 
+cout << "\nSet A (Vanilla): "; 
+vanilla.display(); 
+cout << "Set B (Butterscotch): "; 
+butterscotch.display(); 
+
+cout << "\n(a) Students who like both Vanilla & Butterscotch:\n"; 
+Set both = vanilla.intersection(butterscotch); 
+both.display(); 
+
+cout << "\n(b) Students who like either Vanilla or Butterscotch but not both:\n"; 
+Set eitherNotBoth = vanilla.symmetricDiff(butterscotch); 
+eitherNotBoth.display(); 
+
+cout << "\n(c) Students who like neither Vanilla nor Butterscotch:\n"; 
+Set unionSet = vanilla.setUnion(butterscotch); 
+Set neither = unionSet.difference(universal); // should be (U - (A ∪ B)) 
+neither.display(); 
+return 0; 
+}
