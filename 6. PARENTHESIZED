@@ -1,53 +1,45 @@
 #include <iostream>
 using namespace std;
 
-bool isMatching(char open, char close) {
-    if (open == '(' && close == ')') return true;
-    if (open == '{' && close == '}') return true;
-    if (open == '[' && close == ']') return true;
-    return false;
-}
-
-bool isBalanced(string exp) {
-    char arr[100];  
-    int top = -1;   
-
-    for (int i = 0; exp[i] != '\0'; i++) {
-        char c = exp[i];
-
-        
-        if (c == '(' || c == '{' || c == '[') {
-            top++;
-            arr[top] = c;
-        }
-
-        
-        else if (c == ')' || c == '}' || c == ']') {
-            if (top == -1)  
-                return false;
-
-            if (!isMatching(arr[top], c))
-                return false;
-
-            top--;  
-        }
-    }
-
-    
-    return (top == -1);
-}
-
 int main() {
     string exp;
     cout << "Enter expression: ";
     cin >> exp;
 
-    if (isBalanced(exp))
-        cout << "Expression is well parenthesized.\n";
+    char stack[100];   // array used as stack
+    int top = -1;      // top pointer
+
+    for (int i = 0; i < exp.length(); i++) {
+        char c = exp[i];
+
+        // Push opening brackets
+        if (c == '(' || c == '{' || c == '[') {
+            stack[++top] = c;   // push
+        }
+        else if (c == ')' || c == '}' || c == ']') {
+
+            if (top == -1) {    // stack empty
+                cout << "Not Balanced";
+                return 0;
+            }
+
+            char t = stack[top--];   // pop
+
+            // mismatch check
+            if ((c == ')' && t != '(') ||
+                (c == '}' && t != '{') ||
+                (c == ']' && t != '[')) {
+                cout << "Not Balanced";
+                return 0;
+            }
+        }
+    }
+
+    // final check
+    if (top == -1)
+        cout << "Balanced";
     else
-        cout << "Expression is NOT well parenthesized.\n";
+        cout << "Not Balanced";
 
     return 0;
 }
-
-
