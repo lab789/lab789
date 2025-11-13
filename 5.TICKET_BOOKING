@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+struct Seat {
+    int booked;
+    Seat *next, *prev;
+};
+
+Seat* head[10];
+
+void init() {
+    for (int i = 0; i < 10; i++) {
+        head[i] = new Seat{0, NULL, NULL};
+        Seat* temp = head[i];
+        for (int j = 1; j < 7; j++) {
+            Seat* s = new Seat{0, NULL, temp};
+            temp->next = s;
+            temp = s;
+        }
+        temp->next = head[i];
+        head[i]->prev = temp;
+    }
+}
+
+void display() {
+    for (int i = 0; i < 10; i++) {
+        Seat* temp = head[i];
+        cout << "Row " << i + 1 << ": ";
+        for (int j = 0; j < 7; j++) {
+            cout << temp->booked << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+}
+
+void book(int r, int s) {
+    Seat* temp = head[r - 1];
+    for (int i = 1; i < s; i++) temp = temp->next;
+    if (temp->booked) cout << "Seat already booked.\n";
+    else { temp->booked = 1; cout << "Seat booked!\n"; }
+}
+
+void cancel(int r, int s) {
+    Seat* temp = head[r - 1];
+    for (int i = 1; i < s; i++) temp = temp->next;
+    if (!temp->booked) cout << "Seat not booked.\n";
+    else { temp->booked = 0; cout << "Booking cancelled!\n"; }
+}
+
+int main() {
+    init();
+    int choice, r, s;
+    do {
+        cout << "\n1.Display 2.Book 3.Cancel 4.Exit\nEnter choice: ";
+        cin >> choice;
+        if (choice == 1) display();
+        else if (choice == 2) { cout << "Enter row and seat: "; cin >> r >> s; book(r, s); }
+        else if (choice == 3) { cout << "Enter row and seat: "; cin >> r >> s; cancel(r, s); }
+    } while (choice != 4);
+    return 0;
+}
+
+
