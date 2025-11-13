@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+bool isMatching(char open, char close) {
+    if (open == '(' && close == ')') return true;
+    if (open == '{' && close == '}') return true;
+    if (open == '[' && close == ']') return true;
+    return false;
+}
+
+bool isBalanced(string exp) {
+    char arr[100];  
+    int top = -1;   
+
+    for (int i = 0; exp[i] != '\0'; i++) {
+        char c = exp[i];
+
+        
+        if (c == '(' || c == '{' || c == '[') {
+            top++;
+            arr[top] = c;
+        }
+
+        
+        else if (c == ')' || c == '}' || c == ']') {
+            if (top == -1)  
+                return false;
+
+            if (!isMatching(arr[top], c))
+                return false;
+
+            top--;  
+        }
+    }
+
+    
+    return (top == -1);
+}
+
+int main() {
+    string exp;
+    cout << "Enter expression: ";
+    cin >> exp;
+
+    if (isBalanced(exp))
+        cout << "Expression is well parenthesized.\n";
+    else
+        cout << "Expression is NOT well parenthesized.\n";
+
+    return 0;
+}
+
+
